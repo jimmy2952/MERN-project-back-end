@@ -51,7 +51,7 @@ const signup = async (req, res, next) => {
     name,
     email,
     password,
-    image: "https://www.taiwan.net.tw/att/1/big_scenic_spots/pic_7927_32.jpg",
+    image: req.file.path,
     places: [],
   });
 
