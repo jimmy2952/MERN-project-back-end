@@ -15,12 +15,13 @@ const getUsers = async (req, res, next) => {
     return next(error);
   }
 
-  res.json({ users: users.map(user => user.toObject({ getters: true })) })
+  res.json({ users: users.map((user) => user.toObject({ getters: true })) });
 };
 
 const signup = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
+    console.log(errors);
     return next(
       new HttpError("Invalid inputs passed, please check your data.", 422)
     );
@@ -51,7 +52,7 @@ const signup = async (req, res, next) => {
     email,
     password,
     image: "https://www.taiwan.net.tw/att/1/big_scenic_spots/pic_7927_32.jpg",
-    places: []
+    places: [],
   });
 
   try {
@@ -83,13 +84,16 @@ const login = async (req, res, next) => {
 
   if (!existingUser || existingUser.password !== password) {
     const error = new HttpError(
-      "Could identify user, credentials seem to be wrong.",
+      "Could not identify user, credentials seem to be wrong.",
       401
     );
     return next(error);
   }
 
-  res.json({ message: "Logged in!" });
+  res.json({
+    message: "Logged in!",
+    user: existingUser.toObject({ getters: true }),
+  });
 };
 
 exports.getUsers = getUsers;
